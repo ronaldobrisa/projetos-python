@@ -1,0 +1,10 @@
+n1 = int(input('insira primeiro numero: '))
+n2 = int(input('insira segundo numero: '))
+som = n1+n2
+mult = n1*n2
+div = n1/n2
+sub = n1-n2
+di = n1//n2
+ex = n1**n2
+print('a soma é: {}, a multiplicação é: {}, a divisão é: {}'.format(som,mult,div), end=(' '))
+print('a subtração é: {}, a divisão\n inteira é {}, a potência é {}'.format(sub,di,ex), end=(' '))
