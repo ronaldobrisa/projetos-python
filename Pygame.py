@@ -1,23 +1,25 @@
 import pygame
-from random import randint
+from random import randrange
 pygame.init()
 x = 355 #limite do carro direita 520 - esquerda 190 - centro 355
 y = 450
 pos_x = 200
-pos_y = -100
+pos_y = -250
 pos_x_a = 150
-pos_y_a = -200
+pos_y_a = -450
 pos_x_b = 300
-pos_y_b = -250
+pos_y_b = -650
 pos_x_c = 150
-pos_y_c = -300
+pos_y_c = -850
 pos_x_d = 300
-pos_y_d = -400
+pos_y_d = -1050
 pos_x_e = 150
-pos_y_e = -450
+pos_y_e = -1250
+timer = 0
+tempo_seg = 0
 
 velocidade = 50
-velo_outros = 20
+velo_outros = 10
 
 pista = pygame.image.load('pista_pygame.png')
 carro = pygame.image.load('F1_pygame.png')
@@ -36,11 +38,7 @@ texto = font.render('Tempo: ', True, (255,255,255), (0,0,0))
 #Posicionamento do retangulo
 pos_texto = texto.get_rect()
 #Posicionamento do texto no retangulo
-pos_texto.center(65,50)
-
-
-
-
+pos_texto.center = (65,50)
 
 # Método utilizado para definir tamanho das figuras(fazer uma para cada)
 red_car = pygame.transform.scale(red_car, (90, 140))
@@ -77,13 +75,21 @@ while janela_aberta:
         x += velocidade
 
     #Condição que faz o carro sumir e aparecer na tela
-    if (pos_y >= 700) and (pos_y_a >= 700) and (pos_y_b >= 700) and (pos_y_c >= 700) and (pos_y_d >= 700) and (pos_y_e >= 700):
-        pos_y = randint(-450, 2000)
-        pos_y_a = randint(-450, 0)
-        pos_y_b = randint(-450, 0)
-        pos_y_c = randint(-450, 0)
-        pos_y_d = randint(-450, 0)
-        pos_y_e = randint(-450, 0)
+    if (pos_y >= 650) and (pos_y_a >= 650) and (pos_y_b >= 650) and (pos_y_c >= 650) and (pos_y_d >= 650) and (pos_y_e >= 650):
+        pos_y = randrange(-100, -500, -499)  #policia
+        pos_y_a = randrange(-300, -600, -599) #vermelho
+        pos_y_b = randrange(-2000, -3000, -2999)  #amarelo
+        pos_y_c = randrange(-600, -1300, -1299)  #preto
+        pos_y_d = randrange(-1000, -1700, -1699)  #ambulancia
+        pos_y_e = randrange(-600, -2000, -1999)  #branco
+
+    #Lógica para controlar o tempo incrementa a cada 1 segundo
+    if (timer < 20):
+        timer += 1
+    else:
+        tempo_seg += 1
+        texto = font.render('Tempo: '+str(tempo_seg), True, (255,255,255), (0,0,0))
+        timer = 0
 
     #Dimensiona a imagem pista na janela
     janela.blit(pista, (22.5, 0))
@@ -96,6 +102,7 @@ while janela_aberta:
     janela.blit(black_car, (pos_x_c + 50, pos_y_c))
     janela.blit(ambulancia, (pos_x_d + 200, pos_y_d))
     janela.blit(white_car, (pos_x_e + 200, pos_y_e))
+    janela.blit(texto,pos_texto)
 
 
     #Método para criar uma forma de objeto na tela
@@ -103,12 +110,12 @@ while janela_aberta:
     #pygame.draw.circle(janela, (100,50,0), (x,y), 50)
 
     #Decrementa a velocidade dos outros carros
-    pos_y += velo_outros
-    pos_y_a += velo_outros - 10
-    pos_y_b += velo_outros - 8
-    pos_y_c += velo_outros - 5
-    pos_y_d += velo_outros - 10
-    pos_y_e += velo_outros - 2
+    pos_y += velo_outros + 10
+    pos_y_a += velo_outros + 10
+    pos_y_b += velo_outros + 30
+    pos_y_c += velo_outros + 15
+    pos_y_d += velo_outros + 30
+    pos_y_e += velo_outros + 10
 
     #Atualiza a tela depois de fazer o circle
     pygame.display.update()
