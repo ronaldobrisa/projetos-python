@@ -3,18 +3,18 @@ from random import randrange
 pygame.init()
 x = 355 #limite do carro direita 520 - esquerda 190 - centro 355
 y = 450
-pos_x = 200
-pos_y = -250
-pos_x_a = 150
-pos_y_a = -450
-pos_x_b = 300
-pos_y_b = -650
-pos_x_c = 150
-pos_y_c = -850
-pos_x_d = 300
-pos_y_d = -1050
-pos_x_e = 150
-pos_y_e = -1250
+pos_x = 200 #policia
+pos_y = -1250
+pos_x_a = 355 #vermelho
+pos_y_a = -1000
+pos_x_b = 500 #amarelo
+pos_y_b = -2000
+pos_x_c = 200 #preto
+pos_y_c = -250
+pos_x_d = 500 #ambulancia
+pos_y_d = -1000
+pos_x_e = 355 #branco
+pos_y_e = -5000
 timer = 0
 tempo_seg = 0
 
@@ -74,14 +74,37 @@ while janela_aberta:
     if comandos[pygame.K_RIGHT] and x <= 501:
         x += velocidade
 
+    # Detecta a colisão do lado esquerdo                   x = 355 y = 450
+    if ((x - 100 < pos_x and y - 150 < pos_y)):   #policia pos_x = 200  pos_y = -250
+        y = -1200
+    if ((x - 100 < pos_x_c and y - 150 < pos_y_c)):  #preto pos_x_c = 200  pos_y_c = -250
+        y = -1200
+    # Detecta a colisão do lado direito
+    if ((x + 50 > pos_x_b and y - 140 < pos_y_b)):      #amarelo pos_x_b = 150 pos_y_b = -450
+        y = -1200
+    if ((x + 50 > pos_x_d and y - 140 < pos_y_d)):      #ambulancia pos_x_d = 150 pos_y_d = -450
+        y = -1200
+    # Detecta a colisão do centro
+    if ((x + 100 > pos_x_a and y - 150 < pos_y_a)) and ((x - 100 < pos_x_a and y - 140 < pos_y_a)):
+        y = -1200
+    if ((x + 100 > pos_x_e and y - 150 < pos_y_e)) and ((x - 100 < pos_x_e and y - 140 < pos_y_e)):
+        y = -1200
+                                           #pos_x_a = 355
+
+
     #Condição que faz o carro sumir e aparecer na tela
-    if (pos_y >= 650) and (pos_y_a >= 650) and (pos_y_b >= 650) and (pos_y_c >= 650) and (pos_y_d >= 650) and (pos_y_e >= 650):
-        pos_y = randrange(-100, -500, -499)  #policia
-        pos_y_a = randrange(-300, -600, -599) #vermelho
-        pos_y_b = randrange(-2000, -3000, -2999)  #amarelo
-        pos_y_c = randrange(-600, -1300, -1299)  #preto
-        pos_y_d = randrange(-1000, -1700, -1699)  #ambulancia
-        pos_y_e = randrange(-600, -2000, -1999)  #branco
+    if (pos_y >= 650):
+        pos_y = randrange(-100, -200, -199)  #policia
+    if (pos_y_a >= 650):
+        pos_y_a = randrange(-100, -200, -199) #vermelho
+    if (pos_y_b >= 650):
+        pos_y_b = randrange(-100, -200, -199)  #amarelo
+    if (pos_y_c >= 650):
+        pos_y_c = randrange(-100, -200, -199)  #preto
+    if (pos_y_d >= 650):
+        pos_y_d = randrange(-100, -200, -199)  #ambulancia
+    if (pos_y_e >= 650):
+        pos_y_e = randrange(-100, -200, -199)  #branco
 
     #Lógica para controlar o tempo incrementa a cada 1 segundo
     if (timer < 20):
@@ -97,11 +120,11 @@ while janela_aberta:
     #Posiciona a imagem carro na pista
     janela.blit(carro, (x, y))
     janela.blit(policia, (pos_x, pos_y))
-    janela.blit(red_car, (pos_x_a + 200, pos_y_a))
-    janela.blit(yellow_car, (pos_x_b + 200, pos_y_b))
-    janela.blit(black_car, (pos_x_c + 50, pos_y_c))
-    janela.blit(ambulancia, (pos_x_d + 200, pos_y_d))
-    janela.blit(white_car, (pos_x_e + 200, pos_y_e))
+    janela.blit(red_car, (pos_x_a, pos_y_a))
+    janela.blit(yellow_car, (pos_x_b, pos_y_b))
+    janela.blit(black_car, (pos_x_c, pos_y_c))
+    janela.blit(ambulancia, (pos_x_d, pos_y_d))
+    janela.blit(white_car, (pos_x_e, pos_y_e))
     janela.blit(texto,pos_texto)
 
 
@@ -110,12 +133,12 @@ while janela_aberta:
     #pygame.draw.circle(janela, (100,50,0), (x,y), 50)
 
     #Decrementa a velocidade dos outros carros
-    pos_y += velo_outros + 10
-    pos_y_a += velo_outros + 10
-    pos_y_b += velo_outros + 30
-    pos_y_c += velo_outros + 15
-    pos_y_d += velo_outros + 30
-    pos_y_e += velo_outros + 10
+    pos_y += velo_outros + 5 #policia
+    pos_y_a += velo_outros + 15 #red_car
+    pos_y_b += velo_outros + 5 #yellow_car
+    pos_y_c += velo_outros + 5 #black_car
+    pos_y_d += velo_outros + 5 #ambulancia
+    pos_y_e += velo_outros + 15 #white_car
 
     #Atualiza a tela depois de fazer o circle
     pygame.display.update()
